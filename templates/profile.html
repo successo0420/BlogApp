@@ -1,0 +1,64 @@
+{% include "header.html" %}
+<header>
+<div class="container shadow min-vh-100 py-2">
+    <div class="row profile-div align-items-center">
+        <div class="col-lg-4">
+            {% if user.image_url %}
+            <img src={{user.image_url}} class="profile-image">
+            {% else %}
+            <img src="https://moxierobot.com/cdn/shop/files/preview_images/2e00169e631a4c028433c7ddefb57df4.thumbnail.0000000000_1024x.jpg?v=1690397026">
+            {% endif %}
+        </div>
+        <div class="col-lg-8">
+            <h1 class="profile-name-text">{{user.name}}</h1>
+            {% if num == 1 %}
+            <p>
+                A wonderful blogger that has {{num}} post
+            </p>
+            {%else %}
+            <p>
+                A wonderful blogger that has {{num}} posts
+            </p>
+            {% endif %}
+        </div>
+    </div>
+    <hr class="my-4" />
+    <div class="container px-4 px-lg-5 justify-content-center">
+  <div class="row gx-4 gx-lg-5">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+        {% if num == 0 %}
+        <div class="align-items-center">
+            <h2>No Posts Yet</h2>
+        </div>
+
+        {%else%}
+        <h2 class="post-title-text">Posts:</h2>
+        {%endif%}
+      <!-- Post preview-->
+      {% for post in user.posts %}
+      <div class="post-preview">
+        <a href="{{ url_for('show_post', post_id=post.id) }}">
+          <h2 class="post-title">{{ post.title }}</h2>
+          <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+        </a>
+        <p class="post-meta">
+          Posted by
+          <!-- post.author.name is now a User object -->
+          <a href={{url_for('profile',user_id=post.author.id)}}>{{post.author.name}}</a>
+          on {{post.date}}
+          {% if current_user.id == post.author.id: %}
+          <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
+          {% endif %}
+            <hr class="my-4" />
+            {% endfor %}
+        </p>
+      </div>
+      <!-- Divider-->
+
+    </div>
+  </div>
+</div>
+</div>
+    </header>
+
+{% include "footer.html" %}

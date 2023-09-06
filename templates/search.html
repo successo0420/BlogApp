@@ -1,0 +1,31 @@
+{% include "header.html" %}
+{% from "bootstrap5/form.html" import render_form %}
+<div class="search-users-div">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        {{render_form(form, novalidate=True) }}
+    </div>
+    {% if empty %}
+    <h2 style="text-align:center;margin-top:3rem;">There's nobody by that username</h2>
+    {% else %}
+
+    <div class="container search-container">
+    {% for user in users %}
+    <div class="row align-items-center">
+        <div class="col-lg-4 align-items-center">
+            {% if user.image_url %}
+            <img src={{user.image_url}} class="search-image">
+            {% else %}
+            <img src="https://moxierobot.com/cdn/shop/files/preview_images/2e00169e631a4c028433c7ddefb57df4.thumbnail.0000000000_1024x.jpg?v=1690397026" class="search-image">
+            {% endif %}
+        </div>
+        <div class="col-lg-8 align-items-center">
+            <h2><a href={{url_for('profile',user_id=user.id)}}>{{user.username}}</a></h2>
+        </div>
+    </div>
+        <hr class="my-4" />
+    {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% include "footer.html" %}

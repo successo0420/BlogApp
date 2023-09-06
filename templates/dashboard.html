@@ -1,0 +1,46 @@
+{% include "header.html" %}
+{% from "bootstrap5/form.html" import render_form %}
+<div>
+    <main class="mb-4">
+        <div class="container">
+        <h1 style="text-align:left; margin-top:15%;">Dashboard:</h1>
+            <div class="dashboard-container">
+      <div class="mx-auto">
+        <p>Name: {{user.name}}</p>
+        <p>Username: {{user.username}}</p>
+        <p>User ID: {{user.id}}</p>
+        <p>Email: {{user.email}}</p>
+      </div>
+        <div class="row dashboard-buttons-div">
+            <div class="col-lg-6 col-md-6 col-sm-6 mx-auto">
+            <form method="get" action={{url_for('delete_user',user_id=user.id)}}><button class="btn btn-danger">Delete</button></form>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 mx-auto second-button">
+            <form method="get" action={{url_for('logout')}}><button type="submit" class="btn btn-danger">Logout</button></form>
+        </div>
+        </div>
+            </div>
+
+    </div>
+        <hr class="my-10" />
+</main>
+    <main class="mb-4" style="padding-bottom:3%;">
+  <div class="container">
+      <h1 style="text-align:left; margin-bottom:3%;">Update Profile:</h1>
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+      <!--Rendering the registration form here-->
+          {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="flash">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      {{render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+{% include "footer.html" %}
