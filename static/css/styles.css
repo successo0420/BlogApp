@@ -10,9 +10,6 @@ hr {
 p {
   margin: 2rem 0;
 }
-p a {
-  text-decoration: underline;
-}
 
 blockquote {
   font-style: italic;
@@ -229,10 +226,12 @@ header.masthead .post-heading .meta a {
   font-size: 1.875rem;
   margin-top: 1.875rem;
   margin-bottom: 0.625rem;
+  text-decoration: none;
 }
 .post-preview > a > .post-subtitle {
   font-weight: 300;
   margin-bottom: 0.625rem;
+  text-decoration: none;
 }
 .post-preview > .post-meta {
   font-size: 1.125rem;
@@ -246,6 +245,7 @@ header.masthead .post-heading .meta a {
 @media (min-width: 992px) {
   .post-preview > a > .post-title {
     font-size: 2.25rem;
+    text-decoration: none;
   }
 }
 
@@ -325,6 +325,7 @@ header.masthead .post-heading .meta a {
 }
 .post-title-text {
     margin: 4rem 0;
+    text-decoration: none;
 }
 
 
@@ -360,6 +361,7 @@ header.masthead .post-heading .meta a {
 }
 .dashboard-text{
     text-align:left;
+
     margin-top:20%;
     padding: 0 16%
 }
@@ -387,4 +389,8 @@ header.masthead .post-heading .meta a {
 .second-button{
 margin-top:5%;
 }
+}
+hr {
+    height: 1px;
+    background: black;
 }

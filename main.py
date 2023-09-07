@@ -285,7 +285,7 @@ def contact():
     form = ContactForm()
     if request.method == "GET":
         try:
-            user = db.session.execute(db.select(User).where(User.id == current_user.id))
+            user = db.session.execute(db.select(User).where(User.id == current_user.id)).scalar()
             form.email.data = user.email
             form.name.data = user.name
         except AttributeError:
