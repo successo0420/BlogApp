@@ -68,8 +68,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(250))
     name = db.Column(db.String(100))
-    image_url = db.Column(db.String)
-    username = db.Column(db.String, unique=True)
+    image_url = db.Column(db.String(300))
+    username = db.Column(db.String(100), unique=True)
     # This will act like a list of BlogPost objects attached to each User.
     # The "author" refers to the author property in the BlogPost class.
     posts = relationship("BlogPost", back_populates="author")
