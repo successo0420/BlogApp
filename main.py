@@ -8,7 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
-from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, SearchForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, SearchForm, ContactForm
+from EmailMe import EmailMe
 
 
 app = Flask(__name__)
@@ -133,7 +134,7 @@ def register():
             name=form.name.data,
             password=hash_and_salted_password,
             image_url=form.img_url.data,
-            username=form.username.data,
+            username=form.username.data
         )
         db.session.add(new_user)
         db.session.commit()
@@ -279,9 +280,25 @@ def about():
     return render_template("about.html", current_user=current_user)
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html", current_user=current_user)
+    form = ContactForm()
+    if request.method == "GET":
+        try:
+            user = db.session.execute(db.select(User).where(User.id == current_user.id))
+            form.email.data = user.email
+            form.name.data = user.name
+        except AttributeError:
+            pass
+        return render_template("contact.html", current_user=current_user, form=form)
+    if form.validate_on_submit():
+        message = f"Hello, you have a message from {form.name.data}. " \
+                  f"If you would like to contact them back, their email is {form.email.data} and their phone number is {form.phone.data}." \
+                  f"\n\nThis is their message: {form.message.data}"
+        email_sender = EmailMe()
+        email_sender.send_email(message)
+        flash("Submited!")
+        return redirect(url_for("contact"))
 
 
 @app.route("/profile/<user_id>")
