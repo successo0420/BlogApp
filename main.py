@@ -325,7 +325,7 @@ def dashboard():
     if request.method == "POST" and form.validate_on_submit():
         hash_and_salted_password = generate_password_hash(
             form.password.data,
-            method='pbkdf2',
+            method='pbkdf2:sha256',
             salt_length=16
         )
         user = db.session.execute(db.Select(User).where(User.id == current_user.id)).scalar()
