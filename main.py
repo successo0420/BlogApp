@@ -66,7 +66,7 @@ class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(250))
     name = db.Column(db.String(100))
     image_url = db.Column(db.String)
     username = db.Column(db.String, unique=True)
@@ -281,25 +281,25 @@ def about():
     return render_template("about.html", current_user=current_user)
 
 
-@app.route("/contact", methods=["GET", "POST"])
-def contact():
-    form = ContactForm()
-    if request.method == "GET":
-        try:
-            user = db.session.execute(db.select(User).where(User.id == current_user.id)).scalar()
-            form.email.data = user.email
-            form.name.data = user.name
-        except AttributeError:
-            pass
-        return render_template("contact.html", current_user=current_user, form=form)
-    if form.validate_on_submit():
-        message = f"Hello, you have a message from {form.name.data}. " \
-                  f"If you would like to contact them back, their email is {form.email.data} and their phone number is {form.phone.data}." \
-                  f"\n\nThis is their message: {form.message.data}"
-        email_sender = EmailMe()
-        email_sender.send_email(message)
-        flash("Submited!")
-        return redirect(url_for("contact"))
+# @app.route("/contact", methods=["GET", "POST"])
+# def contact():
+#     form = ContactForm()
+#     if request.method == "GET":
+#         try:
+#             user = db.session.execute(db.select(User).where(User.id == current_user.id)).scalar()
+#             form.email.data = user.email
+#             form.name.data = user.name
+#         except AttributeError:
+#             pass
+#         return render_template("contact.html", current_user=current_user, form=form)
+#     if form.validate_on_submit():
+#         message = f"Hello, you have a message from {form.name.data}. " \
+#                   f"If you would like to contact them back, their email is {form.email.data} and their phone number is {form.phone.data}." \
+#                   f"\n\nThis is their message: {form.message.data}"
+#         email_sender = EmailMe()
+#         email_sender.send_email(message)
+#         flash("Submited!")
+#         return redirect(url_for("contact"))
 
 
 @app.route("/profile/<user_id>")
@@ -325,7 +325,7 @@ def dashboard():
     if request.method == "POST" and form.validate_on_submit():
         hash_and_salted_password = generate_password_hash(
             form.password.data,
-            method='pbkdf2',
+            method='pbkdf2:sha256',
             salt_length=16
         )
         user = db.session.execute(db.Select(User).where(User.id == current_user.id)).scalar()
