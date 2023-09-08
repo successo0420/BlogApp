@@ -15,7 +15,7 @@ Welcome to Blogger! A web application where you can discover interesting blogs t
 
 
 # Usage
-1. [Go to https://blogapp-o6le.onrender.com/](url)
+1. Go to [https://blogapp-o6le.onrender.com/](url)
   *Because of onrender's servers, it may take a minute for the website to load up
 2. Create a new account
 3. Create your first blog!
